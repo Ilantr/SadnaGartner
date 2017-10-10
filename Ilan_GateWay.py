@@ -34,14 +34,3 @@ def api_hello():
 server = server()
 if __name__ == '__main__':
     app.run(host = '0.0.0.0' port = int(os.environ.get("POST", 5000)))
-#from flask import Flask, jsonify, request
-#app = Flask(__name__)
-
-#@app.route("/", methods=["GET", "POST"])
-#def Ilan_GateWay():
- #   data = request.get_json()
-  #3  param = data["param"]
-    #return jsonify({"result" : "Success", "param" : param})
-
-#if __name__ == "__main__":
- #   app.run()
