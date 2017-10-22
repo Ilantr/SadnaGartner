@@ -1,1 +1,1 @@
-web: python Ilan_GateWay
+web: python Ilan_GateWay.py
