@@ -1,18 +1,35 @@
 from flask import Flask
-from flask import json
-from flask import Response
 from flask import request
+import paho.mqtt.client as mqtt
 import os
+from flask import json
+import paho.mqtt.client as paho
 
-class Server(object):
-    """Server class"""
-    app = Flask(__name__)
+#mqttc = mqtt.Client()
+app = Flask(__name__)
 
-    @app.route("/", methods =['GET', 'POST'])
-    def Welcome():
-        return "Welcome to my page :)"
 
-    if __name__ == '__main__':
-        app.debug = True
-        port = int(os.environ.get('PORT', 5000))
-        app.run(host = '0.0.0.0', port = port)
+@app.route("/")
+def getRequest():
+    return "Hello World!"
+
+
+@app.route("/webhook", methods=['GET'])
+def getToPostRequest():
+    return request.args.get("hub.challenge")
+
+
+@app.route("/webhook", methods=['POST'])
+def postRequestTofb():
+    content = request.get_json()
+    if content['entry'][0]['changes'][0]['value']['item'] == 'like':
+        mqttc = paho.Client()
+        mqttc.username_pw_set(os.environ.get("MQTT_USER", ''), os.environ.get("MQTT_PWD", ''))
+        mqttc.connect(os.environ.get("MQTT_HOST", ''), int(os.environ.get("MQTT_PORT", 	5001)))
+        mqttc.publish('fb-posts-updates', 'Got like!')
+        mqttc.disconnect()
+    return ""
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=int(os.environ.get('PORT',	5000)))
