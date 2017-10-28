@@ -14,11 +14,11 @@ class Server(object):
     MQTTC = MqttClient()
 
     @app.route("/", methods =['GET', 'POST'])
-    def Welcome(self):
+    def Welcome():
         return "Welcome to my page :)"
 
     @app.route('/articles')
-    def api_articles(self):
+    def api_articles():
         return 'List of articles'
 
     @app.route('/articles/<articleid>')
@@ -26,12 +26,12 @@ class Server(object):
         return 'You are reading ' + articleid
 
     @app.route('/json', methods = ['GET', 'POST'])
-    def api_json(self):
+    def api_json():
         data = {k:v for k,v in request.args.items()}
         return json.dumps(data)
 
     @app.route('/hello', methods = ['GET', 'POST'])
-    def api_hello(self):
+    def api_hello():
         data = {
             'hello'  : 'world',
             'number' : 3
@@ -40,11 +40,11 @@ class Server(object):
 
     """webhook api"""
     @app.route("/webhook", methods=['GET'])
-    def verify(self):
+    def verify():
         return request.args.get('hub.challenge')
 
     @app.route("/webhook", methods=['POST'])
-    def fb_feeds_webhook(self):
+    def fb_feeds_webhook():
         """webhook api"""
         logging.debug('Handling webhook request!!')
         content = request.get_json()
