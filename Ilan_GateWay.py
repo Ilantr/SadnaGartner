@@ -13,7 +13,7 @@ class Server(object):
     app = Flask(__name__)
     MQTTC = MqttClient()
 
-    @app.route("/", methods =['GET', 'POST'])
+    @app.route("/")
     def Welcome():
         return "Welcome to my page :)"
 
